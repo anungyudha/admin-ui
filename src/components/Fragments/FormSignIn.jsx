@@ -3,6 +3,7 @@ import LabeledInput from "../elements/LabeledInput";
 import { Check } from "lucide-react";
 import CheckBox from "../elements/CheckBox";
 import Button from "../elements/Button";
+import { Link } from "react-router-dom";
 
 function FormSignIn() {
   return (
@@ -81,9 +82,9 @@ function FormSignIn() {
       {/* sign in with google end */}
       {/* link start */}
       <div className="flex justify-center">
-        <a className="text-primary text-sm font-bold cursor-pointer hover:underline">
+        <Link to="/signup" className="text-primary text-sm font-bold cursor-pointer hover:underline">
           Create an account
-        </a>
+        </Link>
       </div>
       {/* link end */}
     </>
