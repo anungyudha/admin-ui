@@ -10,7 +10,7 @@ function PostCard(props) {
         <div className="text-xl text-center font-semibold text-gray-800 mb-2">{title}</div>
         <p className="text-center text-gray-600 flex-1">{body}</p>
         <button
-          className={`${clicked ? "bg-special-red2 hover:brightness-125" : "bg-gray-01"} text-white p-2 rounded md w-full mt-4`}
+          className={`${clicked ? "bg-Special-Red2 hover:brightness-125" : "bg-gray-01"} text-white p-2 rounded md w-full mt-4`}
           onClick={() => setClicked(true)}
         >
           {clicked ? "Tombol sudah diklik" : "Silakan Klik"}
