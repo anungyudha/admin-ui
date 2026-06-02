@@ -1,8 +1,8 @@
 import React from "react";
-import LabeledInput from "../elements/LabeledInput";
+import LabeledInput from "../Elements/LabeledInput";
 import { Check } from "lucide-react";
-import CheckBox from "../elements/CheckBox";
-import Button from "../elements/Button";
+import CheckBox from "../Elements/CheckBox";
+import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
 
 function FormSignIn() {

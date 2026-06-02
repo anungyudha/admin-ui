@@ -1,7 +1,7 @@
 import React from "react";
 import LabeledInput from "../elements/LabeledInput";
-import CheckBox from "../elements/CheckBox";
-import Button from "../elements/Button";
+import CheckBox from "../Elements/CheckBox";
+import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
 
 function FormSignUp() {
