@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Logo from "../Elements/Logo";
-import { ThemeContext } from "../../context/themeContext";
+import { ThemeContext } from "../../Context/themeContext";
 
 function AuthLayout(props) {
   const { children } = props;
