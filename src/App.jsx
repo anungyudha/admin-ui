@@ -7,7 +7,6 @@ import DashboardPage from "./pages/dashboard";
 import BalancePage from "./pages/balance";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-
 function App() {
   const myRouter = createBrowserRouter([
     {
@@ -16,11 +15,11 @@ function App() {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/signin",
+      path: "/login",
       element: <SignInPage />,
     },
     {
-      path: "/signup",
+      path: "/register",
       element: <SignUpPage />,
     },
     {
