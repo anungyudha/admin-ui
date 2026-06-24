@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "../Elements/Card";
-import Icon from "../Elements/icon";
+import Icon from "../Elements/Icon";
 import CompositionExample from "../Elements/CompositionExample";
 
 function CardGoal(props) {
@@ -62,8 +62,12 @@ function CardGoal(props) {
                 <CompositionExample value={chartValue} />
                 <div className="flex justify-between">
                   <span className="text-gray-03">$0</span>
-                  <span className="font-bold text-2xl">{formatNumber(data.present_amount)}</span>
-                  <span className="text-gray-03">{formatNumber(data.target_amount)}</span>
+                  <span className="font-bold text-2xl">
+                    {formatNumber(data.present_amount)}
+                  </span>
+                  <span className="text-gray-03">
+                    {formatNumber(data.target_amount)}
+                  </span>
                 </div>
                 <div className="mt-2">Target vs Achievement</div>
               </div>
