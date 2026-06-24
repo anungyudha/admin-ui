@@ -16,7 +16,7 @@ import {
   expensesStatistics,
 } from "../data";
 import { goalService } from "../services/dataService";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../Context/authContext";
 
 function dashboard() {
   const [goals, setGoals] = useState({});
