@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import AuthLayout from "../components/Layouts/AuthLayout";
 import FormSignUp from "../components/Fragments/FormSignUp";
 import { registerService } from "../services/authService";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../Context/authContext";
 import AppSnackbar from "../components/Elements/AppSnackbar";
 
 function signup() {
