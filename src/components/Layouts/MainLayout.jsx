@@ -5,10 +5,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import FlareIcon from "@mui/icons-material/Flare";
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Icon from "../Elements/icon";
+import Icon from "../Elements/Icon";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "../../context/themeContext";
-import { AuthContext } from "../../context/authContext";
+import { ThemeContext } from "../../Context/themeContext";
+import { AuthContext } from "../../Context/authContext";
 import { logoutService } from "../../services/authService";
 import LoadingBackdrop from "../Elements/LoadingBackdrop";
 
