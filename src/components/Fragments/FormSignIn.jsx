@@ -8,7 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import FlareIcon from "@mui/icons-material/Flare";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import { ThemeContext } from "../../context/themeContext";
+import { ThemeContext } from "../../Context/themeContext";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
