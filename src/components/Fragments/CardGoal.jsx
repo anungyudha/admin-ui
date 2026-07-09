@@ -6,11 +6,42 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function CardGoal(props) {
   const { data } = props;
+
+  // ✨ UBAH DI SINI: Jika data belum di-load, tampilkan loading spinner
+  if (!data) {
+    return (
+      <Card
+        title="Goals"
+        desc={
+          <div className="flex flex-col justify-center items-center h-48 text-primary gap-2">
+            <CircularProgress color="inherit" size={40} />
+            <span className="text-sm font-medium">Loading Data...</span>
+          </div>
+        }
+      />
+    );
+  }
+
+  // ✨ UBAH DI SINI: Jika data sukses di-fetch tapi ternyata kosong ({}) dari database
+  if (Object.keys(data).length === 0 || !data.target_amount) {
+    return (
+      <Card
+        title="Goals"
+        desc={
+          <div className="flex flex-col justify-center items-center h-48 text-gray-03 gap-2">
+            <Icon.Target size={32} className="text-gray-04 mb-1" />
+            <span className="text-sm font-medium">No goals set for this month</span>
+          </div>
+        }
+      />
+    );
+  }
+
+  // Baris ini sekarang 100% aman karena data pasti sudah terisi
   const chartValue = (data.present_amount / data.target_amount) * 100;
 
   const formatNumber = (num) => {
     if (!num) return "0";
-
     return new Intl.NumberFormat("en-US", {
       notation: "compact",
       compactDisplay: "short",
@@ -35,7 +66,7 @@ function CardGoal(props) {
             <Icon.Award />
             <div className="ms-2">
               <div>Target Achieved</div>
-              <div className="font-bold text-xl text-black">
+              <div className="font-bold text-xl">
                 ${data.present_amount}
               </div>
             </div>
@@ -44,7 +75,7 @@ function CardGoal(props) {
             <Icon.Target />
             <div className="ms-2">
               <div>This Month Target</div>
-              <div className="font-bold text-xl text-black">
+              <div className="font-bold text-xl">
                 ${data.target_amount}
               </div>
             </div>
@@ -69,19 +100,7 @@ function CardGoal(props) {
 
   return (
     <>
-      <Card
-        title="Goals"
-        desc={
-          Object.keys(data).length === 0 ? (
-            <div className="flex flex-col justify-center items-center h-full text-primary">
-              <CircularProgress color="inherit" size={50} enableTrackSlot />
-              Loading Data
-            </div>
-          ) : (
-            chartData
-          )
-        }
-      />
+      <Card title="Goals" desc={chartData} />
     </>
   );
 }

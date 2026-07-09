@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import LabeledInput from "../Elements/LabeledInput";
 import { Check } from "lucide-react";
 import CheckBox from "../Elements/CheckBox";
@@ -6,6 +6,9 @@ import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import FlareIcon from "@mui/icons-material/Flare";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import { ThemeContext } from "../../context/themeContext";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
@@ -13,6 +16,8 @@ const SignInSchema = Yup.object().shape({
 });
 
 function FormSignIn({ onSubmit }) {
+  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+
   return (
     <>
       {/* form start */}
@@ -97,9 +102,10 @@ function FormSignIn({ onSubmit }) {
       {/* form end */}
       {/* teks start */}
       <div className="my-9 px-7 flex flex-col justify-center items-center text-xs text-gray-03">
-        <div className="border-t border-gray-05 w-full"></div>
+        <div className="border-t border-gray-03 w-full"></div>
         <div className="px-4 bg-special-mainBg absolute"> or sign in with</div>
       </div>
+
       {/* teks end */}
       {/* sign in with google start */}
       <div className="mb-8">
@@ -108,7 +114,6 @@ function FormSignIn({ onSubmit }) {
             <svg
               className="h-6 w-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"
-              // Baris xlnsXlink sudah dihapus dari sini
               width="800px"
               height="800px"
               viewBox="-0.5 0 48 48"
@@ -137,13 +142,35 @@ function FormSignIn({ onSubmit }) {
       </div>
       {/* sign in with google end */}
       {/* link start */}
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-4 justify-center">
         <Link
           to="/register"
           className="text-primary text-sm font-bold cursor-pointer hover:underline"
         >
           Create an account
         </Link>
+
+        <div className="flex flex-col justify-center items-center text-xs text-gray-03">
+          <div className="px-4 bg-special-mainBg absolute">
+            {" "}
+            Forgot Password?
+          </div>
+        </div>
+
+        <div
+          onClick={toggleDarkMode}
+          className="rounded-md cursor-pointer flex items-center justify-center"
+          title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          {isDarkMode ? (
+            <FlareIcon sx={{ fontSize: 25 }} className="text-gray-01" />
+          ) : (
+            <DarkModeOutlinedIcon
+              sx={{ fontSize: 25 }}
+              className="text-gray-01"
+            />
+          )}
+        </div>
       </div>
       {/* link end */}
     </>

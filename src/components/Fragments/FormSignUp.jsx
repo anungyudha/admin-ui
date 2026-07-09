@@ -3,51 +3,118 @@ import LabeledInput from "../Elements/LabeledInput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-function FormSignUp() {
+const SignUpSchema = Yup.object().shape({
+  name: Yup.string().min(3, "Nama minimal 3 karakter").required("Name wajib diisi"),
+  email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
+  password: Yup.string().min(6, "Password minimal 6 karakter").required("Password wajib diisi"),
+});
+
+function FormSignUp({ onSubmit }) {
   return (
     <>
       {/* form start */}
       <div className="mt-16">
-        <form action="">
-          <div className="mb-6">
-            <LabeledInput
-              label="Name"
-              type="text"
-              id="name"
-              placeholder="Budi Setiawan"
-              name="name"
-            />
-          </div>
-          <div className="mb-6">
-            <LabeledInput
-              label="Email address"
-              type="email"
-              id="email"
-              placeholder="hello@example.com"
-              name="email"
-            />
-          </div>
-          <div className="mb-6">
-            <LabeledInput
-              label="Password"
-              type="password"
-              id="password"
-              placeholder="••••••••"
-              name="password"
-            />
-          </div>
-          <div className="mb-3">
-            <p className="text-xs text-gray-03 my-4">
-              By continuing, you agree to our{" "}
-              <a href="#" className="text-primary font-semibold">
-                terms of service
-              </a>
-              .
-            </p>
-          </div>
-          <Button> Sign Up</Button>
-        </form>
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+          }}
+          validationSchema={SignUpSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              // Menjalankan fungsi submit yang dilempar dari parent
+              if (onSubmit) {
+                await onSubmit(values.name, values.email, values.password);
+              }
+            } catch (error) {
+              console.error(error);
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* NAME */}
+              <div className="mb-6">
+                <Field name="name">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="name"
+                      type="text"
+                      label="Name"
+                      placeholder="Budi Setiawan"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="name"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* EMAIL */}
+              <div className="mb-6">
+                <Field name="email">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="email"
+                      type="email"
+                      label="Email address"
+                      placeholder="hello@example.com"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* PASSWORD */}
+              <div className="mb-6">
+                <Field name="password">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="password"
+                      type="password"
+                      label="Password"
+                      placeholder="••••••••"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              <div className="mb-3">
+                <p className="text-xs text-gray-03 my-4">
+                  By continuing, you agree to our{" "}
+                  <a href="#" className="text-primary font-semibold">
+                    terms of service
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Loading..." : "Sign Up"}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
       {/* form end */}
       {/* teks start */}
@@ -93,7 +160,7 @@ function FormSignUp() {
       <div className="flex justify-center mt-6">
         <p className="text-sm text-gray-03">
           Already have an account?{" "}
-          <Link to="/signin" className="text-primary font-bold cursor-pointer hover:underline">
+          <Link to="/login" className="text-primary font-bold cursor-pointer hover:underline">
             Sign in here
           </Link>
         </p>

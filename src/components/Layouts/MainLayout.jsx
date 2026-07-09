@@ -2,11 +2,15 @@ import React, { useContext, useState } from "react";
 import Logo from "../Elements/Logo";
 import Input from "../Elements/Input";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import Icon from "../Elements/Icon";
+import FlareIcon from "@mui/icons-material/Flare";
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Icon from "../Elements/icon";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "../../Context/themeContext";
-import { AuthContext } from "../../Context/authContext";
+import { ThemeContext } from "../../context/themeContext";
+import { AuthContext } from "../../context/authContext";
 import { logoutService } from "../../services/authService";
+import LoadingBackdrop from "../Elements/LoadingBackdrop";
 
 function MainLayout(props) {
   const { children } = props;
@@ -19,7 +23,21 @@ function MainLayout(props) {
     { name: "theme-brown", bgcolor: "bg-[#8B4513]", color: "#8B4513" },
   ];
 
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { user, logout, isLoggingOut } = useContext(AuthContext);
+  const handleLogout = async () => {
+    logout();
+    try {
+      await logoutService();
+    } catch (err) {
+      console.error(err);
+      if (err.status === 401) {
+        logout();
+      }
+    }
+  };
+
+  const { theme, setTheme, isDarkMode, toggleDarkMode } =
+    useContext(ThemeContext);
 
   const menu = [
     { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -36,27 +54,12 @@ function MainLayout(props) {
     { id: 7, name: "Settings", icon: <Icon.Setting />, link: "/setting" },
   ];
 
-  const { user, logout } = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    try {
-      await logoutService();
-      logout();
-    } catch (err) {
-      console.error(err);
-      if (err.status === 401) {
-        logout();
-      }
-    }
-  };
-
   return (
     <>
-      <div className={`flex min-h-screen ${theme.name}`}>
-        <aside
-          className="bg-defaultBlack w-28 sm:w-64 text-special-bg2 
-        flex flex-col justify-between px-7 py-12"
-        >
+      <div
+        className={`flex min-h-screen ${theme.name} bg-special-mainBg text-defaultBlack transition-colors duration-300`}
+      >
+        <aside className="bg-sidebar-bg w-28 sm:w-64 text-special-bg2 flex flex-col justify-between px-7 py-12">
           <div>
             <div className="mb-10">
               <Logo variant="secondary" />
@@ -81,20 +84,43 @@ function MainLayout(props) {
             </nav>
           </div>
           <div>
-            Themes
-            <div className="flex flex-col sm:flex-row gap-2 items-center">
-              {themes.map((t) => (
+            <div>
+              Themes
+             
+              <div className="flex flex-row gap-2 items-center my-2 flex-wrap sm:flex-nowrap">
+              
+                {themes.map((t) => (
+                  <div
+                    key={t.name}
+                    className={`${t.bgcolor} w-6 h-6 rounded-md cursor-pointer transition-transform hover:scale-110`}
+                    onClick={() => setTheme(t)}
+                  ></div>
+                ))}
+
+                {/* Tombol Toggle yang Berjejer di Sebelah Kanan */}
                 <div
-                  key={t.name}
-                  className={`${t.bgcolor} w-6 h-6 rounded-md cursor-pointer mb-2`}
-                  onClick={() => setTheme(t)}
-                ></div>
-              ))}
+                  onClick={toggleDarkMode}
+                  className="w-6 h-6 rounded-md cursor-pointer flex items-center justify-center"
+                  title={
+                    isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
+                  }
+                >
+                  {isDarkMode ? (
+                    <FlareIcon
+                      sx={{ fontSize: 16 }}
+                      className="text-gray-400"
+                    />
+                  ) : (
+                    <DarkModeOutlinedIcon
+                      sx={{ fontSize: 16 }}
+                      className="text-gray-400"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
             <div onClick={handleLogout} className="cursor-pointer">
-              <div className="flex bg-special-bg3 text-white px-4 py-3 rounded-md">
+              <div className="flex bg-special-bg3 text-[#ffffff] px-4 py-3 rounded-md">
                 <div className="mx-auto sm:mx-0 text-primary">
                   <Icon.Logout />
                 </div>
@@ -103,20 +129,19 @@ function MainLayout(props) {
             </div>
             <div className="border my-10 border-b-special-bg"></div>
             <div className="flex justify-between items-center">
-              <div>Avatar</div>
+              <div><AccountCircleIcon fontSize="large" /></div>
               <div className="hidden sm:block">
-                {user.name}
-                <br />
-                View Profile
+                <div className="">{user.name}</div>
+                <div className="">View Profile</div>
               </div>
               <div className="hidden sm:block">
-                <Icon.Detail size={20} />
+                <Icon.Detail size={15} />
               </div>
             </div>
           </div>
         </aside>
-        <div className="bg-special-mainBg flex-1 flex flex-col">
-          <header className="border border-b border-gray-05 px-6 py-7 flex justify-between items-center">
+        <div className="flex-1 flex flex-col bg-special-mainBg">
+          <header className="border-b border-gray-05 px-6 py-7 flex justify-between items-center">
             <div className="flex items-center">
               <div className="font-bold text-2xl me-6">{user.name}</div>
               <div className="text-gray-03 flex">
@@ -128,12 +153,13 @@ function MainLayout(props) {
               <div className="me-10">
                 <NotificationsIcon className="text-primary scale-110" />
               </div>
-              <div>Search Box</div>
+              <Input backgroundColor="bg-white" border="border-white" />
             </div>
           </header>
           <main className="flex-1 px-6 py-4">{children}</main>
         </div>
       </div>
+      <LoadingBackdrop open={isLoggingOut} message="Logging Out" />
     </>
   );
 }

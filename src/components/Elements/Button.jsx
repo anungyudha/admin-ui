@@ -2,10 +2,10 @@ import React from "react";
 
 function Button(props) {
   const { children, type = "submit", variant = "primary", onClick } = props;
-  const baseClass = "h-12 rounded-md text-sm w-full cursor-pointer hover:scale-105";
+  const baseClass = "h-12 rounded-md text-sm w-full transition-all cursor-pointer hover:scale-105";
   const variantClasses = {
-    primary: "bg-primary text-white font-bold",
-    secondary: "bg-gray-05 text-gray-02 font-medium",
+    primary: "bg-btn-primary text-text-btn-primary font-bold",
+    secondary: "bg-[#e8e8e8] text-[#191919] font-medium",
   };
   const finalClasses = `${baseClass} ${
     variantClasses[variant] || variantClasses.primary
